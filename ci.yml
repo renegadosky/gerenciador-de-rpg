@@ -1,0 +1,16 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      # Sem package-lock.json no repositório, então `npm install` (e sem cache).
+      # Depois de rodar `npm install` localmente e commitar o package-lock.json,
+      # troque por `npm ci` e adicione `cache: npm` acima.
+      - run: npm install --no-audit --no-fund
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run build
