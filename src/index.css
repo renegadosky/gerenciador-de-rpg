@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ───────── Temas ─────────
+   Cada tema define a escala de cinzas (g-950 mais fundo … g-100 texto) e a cor de destaque, em canais RGB.
+   Para criar um tema novo: copie um bloco, mude o nome em data-theme e registre em src/stores/theme.ts. */
+:root, :root[data-theme='grafite'] {
+  --g-950: 16 16 19; --g-900: 21 21 24; --g-850: 26 26 30; --g-800: 32 32 37; --g-750: 38 38 44; --g-700: 46 46 53;
+  --g-600: 60 60 69; --g-500: 85 85 95; --g-400: 122 122 134; --g-300: 161 161 171; --g-200: 199 199 206; --g-100: 231 231 234;
+  --accent: 123 140 255; --accent-strong: 95 112 240; --on-accent: 255 255 255; --accent-hex: #7b8cff;
+  --font-display: Inter; --color-scheme: dark;
+}
+:root[data-theme='grimorio'] {
+  --g-950: 15 12 10; --g-900: 22 18 15; --g-850: 29 24 20; --g-800: 37 31 26; --g-750: 46 38 32; --g-700: 58 48 40;
+  --g-600: 79 66 54; --g-500: 110 94 78; --g-400: 148 130 110; --g-300: 183 166 145; --g-200: 214 202 184; --g-100: 240 232 218;
+  --accent: 214 166 74; --accent-strong: 201 150 52; --on-accent: 28 20 8; --accent-hex: #d6a64a;
+  --font-display: Cinzel; --color-scheme: dark;
+}
+:root[data-theme='arcano'] {
+  --g-950: 13 11 20; --g-900: 19 16 30; --g-850: 25 21 39; --g-800: 33 28 50; --g-750: 42 36 62; --g-700: 55 48 80;
+  --g-600: 76 67 107; --g-500: 104 94 140; --g-400: 140 130 175; --g-300: 174 166 205; --g-200: 205 199 228; --g-100: 236 233 248;
+  --accent: 176 124 255; --accent-strong: 142 84 240; --on-accent: 255 255 255; --accent-hex: #b07cff;
+  --font-display: Cinzel; --color-scheme: dark;
+}
+:root[data-theme='gelo'] {
+  --g-950: 10 15 18; --g-900: 14 21 25; --g-850: 19 28 33; --g-800: 25 36 42; --g-750: 32 46 54; --g-700: 43 60 70;
+  --g-600: 62 84 96; --g-500: 90 115 128; --g-400: 124 150 163; --g-300: 165 188 198; --g-200: 200 217 224; --g-100: 232 242 246;
+  --accent: 78 205 196; --accent-strong: 58 182 173; --on-accent: 6 28 28; --accent-hex: #4ecdc4;
+  --font-display: Oswald; --color-scheme: dark;
+}
+:root[data-theme='pergaminho'] {
+  --g-950: 255 252 246; --g-900: 244 238 226; --g-850: 251 247 238; --g-800: 236 229 214; --g-750: 226 218 200; --g-700: 210 200 180;
+  --g-600: 184 172 148; --g-500: 150 138 116; --g-400: 118 106 86; --g-300: 86 76 60; --g-200: 58 50 38; --g-100: 32 26 18;
+  --accent: 150 70 40; --accent-strong: 134 58 30; --on-accent: 255 248 240; --accent-hex: #964628;
+  --font-display: Merriweather; --color-scheme: light;
+}
+
+html { color-scheme: var(--color-scheme, dark); }
+html, body, #root { height: 100%; }
+body {
+  margin: 0; background: rgb(var(--g-900)); color: rgb(var(--g-100));
+  font-family: Inter, system-ui, sans-serif; font-size: 12.5px; line-height: 18px;
+  -webkit-font-smoothing: antialiased; overflow: hidden;
+}
+* { scrollbar-width: thin; scrollbar-color: rgb(var(--g-600)) transparent; }
+::selection { background: rgb(var(--accent) / .35); }
+button { font: inherit; color: inherit; }
+input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 1.5px solid rgb(var(--accent)); outline-offset: 1px; }
+
+@layer components {
+  .field {
+    @apply w-full rounded-md border border-g-700 bg-g-850 px-2 py-1 text-sm text-g-100 placeholder:text-g-500
+           transition-colors hover:border-g-600 focus:border-accent focus:outline-none;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-md border border-g-700 bg-g-800 px-2.5 py-1.5 text-sm text-g-100
+           transition-colors hover:bg-g-750 hover:border-g-600 active:bg-g-700 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary { @apply border-accent-strong bg-accent-strong hover:bg-accent hover:border-accent; color: rgb(var(--on-accent)); }
+  .btn-ghost { @apply border-transparent bg-transparent hover:bg-g-750; }
+  .btn-danger { @apply hover:border-red-500/60 hover:bg-red-500/15 hover:text-red-300; }
+  .icon-btn {
+    @apply inline-flex h-7 w-7 items-center justify-center rounded-md border border-transparent text-g-300
+           transition-colors hover:bg-g-750 hover:text-g-100 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-transparent;
+  }
+  .icon-btn[data-active='true'] { @apply bg-accent-soft text-accent; }
+  .section-title { @apply px-3 pb-1 pt-3 text-2xs font-semibold uppercase tracking-wider text-g-400; }
+  .row { @apply flex items-center gap-2 px-3 py-1; }
+  .label { @apply w-14 shrink-0 text-xs text-g-400; }
+}
+
+@keyframes fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.anim-in { animation: fade-in .16s ease-out; }
+
+/* Tabela / lista do editor */
+.rpg-table td, .rpg-table th { border: 1px solid var(--tb, #3c3c45); padding: 4px 8px; }
+
+/* Atmosfera das telas de gerenciamento */
+.glow-bg {
+  background:
+    radial-gradient(900px 320px at 15% -8%, rgb(var(--accent) / .16), transparent 70%),
+    radial-gradient(700px 300px at 95% 0%, rgb(var(--accent) / .07), transparent 70%);
+}
+.chip { @apply inline-flex items-center gap-1.5 rounded-full border border-g-600 bg-g-800 px-2.5 py-0.5 text-sm text-g-100 hover:border-accent; }
+.card-lift { transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease; }
+.card-lift:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgb(0 0 0 / .25); }
